@@ -12,6 +12,7 @@ body {
   font-family: Poppins, sans-serif;
 }
 
+/* Fix the position to make it dragable */
 .card {
   position: relative;
   width: 100px;
@@ -72,7 +73,7 @@ body {
 
 .card__title {
   margin: 0;
-  font-size: 24px;
+  font-size: 20px;
   color: #000000;
   font-weight: 700;
   text-align: center;

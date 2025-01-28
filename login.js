@@ -6,8 +6,7 @@ form.addEventListener("submit", function (event) {
 
   const validCredentials = [
     {
-      password: "pass1", // First
-      password: "pass2", // Second
+      password: "pass1",
     },
   ];
 
