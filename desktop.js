@@ -1,43 +1,30 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const cards = document.getElementsByClassName("card");
-  for (let i = 0; i < cards.length; i++) {
-    dragElement(cards[i]);
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  const cards = document.querySelectorAll(".card");
+
+  cards.forEach((card) => {
+    card.style.position = "absolute"; // Make it positionable
+    card.style.cursor = "grab"; // Show grab cursor
+    let offsetX,
+      offsetY,
+      isDragging = false;
+
+    card.addEventListener("mousedown", (event) => {
+      isDragging = true;
+      offsetX = event.clientX - card.getBoundingClientRect().left;
+      offsetY = event.clientY - card.getBoundingClientRect().top;
+      card.style.cursor = "grabbing";
+      card.style.zIndex = 1000; // Bring the dragged card to the front
+    });
+
+    document.addEventListener("mousemove", (event) => {
+      if (!isDragging) return;
+      card.style.left = `${event.clientX - offsetX}px`;
+      card.style.top = `${event.clientY - offsetY}px`;
+    });
+
+    document.addEventListener("mouseup", () => {
+      isDragging = false;
+      card.style.cursor = "grab";
+    });
+  });
 });
-
-function dragElement(elmnt) {
-  let pos1 = 0,
-    pos2 = 0,
-    pos3 = 0,
-    pos4 = 0;
-
-  elmnt.onmousedown = dragMouseDown;
-
-  function dragMouseDown(e) {
-    e = e || window.e;
-    e.preventDefault();
-
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    document.onmousemove = elementDrag;
-  }
-
-  function elementDrag(e) {
-    e = e || window.e;
-    e.preventDefault();
-    // Calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    // Set the element's new position:
-    elmnt.style.top = elmnt.offsetTop - pos1 + "px";
-    elmnt.style.left = elmnt.offsetLeft - pos2 + "px";
-  }
-
-  function closeDragElement() {
-    document.onmouseup = null;
-    document.onmousemove = null;
-  }
-}
