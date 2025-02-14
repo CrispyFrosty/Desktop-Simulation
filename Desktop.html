@@ -6,10 +6,10 @@
     <title>Hello!</title>
     <link rel="stylesheet" href="Desktop.css" />
   </head>
-  <body>
+  <body onload="start()">
     <main>
       <div class="card-container">
-        <div class="card">
+        <div id="card1" class="card">
           <svg
             version="1.1"
             id="Layer_1"
@@ -98,33 +98,59 @@
             class="card__content"
             href="javascript:void(0)"
             ondblclick="window.dialog.showModal();"
-            class="card__description"
           >
             <p class="card__title">Info</p>
           </div>
           <div class="cards"></div>
         </div>
-        <dialog id="dialog">
-          <h2>Information about this website!</h2>
-          <p class="pDialog">
-            <a
-              href="https://developer.mozilla.org/es/docs/Web/CSS/::backdrop"
-              target="_blank"
-              >::backdrop</a
-            >
-            pseudo-class. Hope you find it helpful.
-          </p>
-          <p class="pDialog">
-            You can also change the styles of the <code>::backdrop</code> from
-            the CSS.
-          </p>
-          <button onclick="window.dialog.close();" aria-label="close" class="x">
-            ❌
-          </button>
+        <!-- Fix white around content, Fix sizing, and Add button functionality to minimize and maximize -->
+        <dialog id="dialog" class="dialog">
+          <div class="cardForContent">
+            <div class="titlebar">
+              <span class="buttons">
+                <button class="minimize">
+                  <svg x="0px" y="0px" viewBox="0 0 10.2 1">
+                    <rect x="0" y="50%" width="10.2" height="1"></rect>
+                  </svg>
+                </button>
+                <button class="maximize">
+                  <svg viewBox="0 0 10 10">
+                    <path d="M0,0v10h10V0H0z M9,9H1V1h8V9z"></path>
+                  </svg>
+                </button>
+                <button class="close" onclick="window.dialog.close();">
+                  <svg viewBox="0 0 10 10">
+                    <polygon
+                      points="10.2,0.7 9.5,0 5.1,4.4 0.7,0 0,0.7 4.4,5.1 0,9.5 0.7,10.2 5.1,5.8 9.5,10.2 10.2,9.5 5.8,5.1"
+                    ></polygon>
+                  </svg>
+                </button>
+              </span>
+            </div>
+            <div class="cppcode">
+              <pre
+                id="pre"
+              ><code><span class="s1">#include</span> <span class="s2">&lt;iostream&gt;</span>
+                  using<span class="s3"> namespace </span>std<span class="sc">;</span>
+
+                <span class="s3">int</span> <span class="s2">main()</span> <span class="curlies">{</span>
+
+                  <span class="s3">int</span> <span class="s4">a</span> <span class="operator">=</span> 12<span class="sc">;</span>
+                  <span class="s3">int</span> <span class="s4">b</span> <span class="operator">=</span> 5<span class="sc">;</span>
+
+                  <span class="s4">cout</span> <span class="s5">&lt;&lt;</span> <span class="s1">"Sum of the numbers
+                    is: "</span> <span class="s5">&lt;&lt;</span> <span class="rounds">(</span><span class="s4">a </span><span class="operator">+</span><span class="s4"> b</span><span class="rounds">)</span><span class="sc">;</span>
+
+                  <span class="s6">return</span> 0<span class="sc">;</span>
+
+                <span class="curlies">}</span>
+                    </code></pre>
+            </div>
+          </div>
         </dialog>
         <br />
         <!-- Second card -->
-        <div class="card">
+        <div id="card2" class="card">
           <svg
             height="200px"
             width="200px"
@@ -171,7 +197,7 @@
         </div>
         <br />
         <!-- Third Card -->
-        <div class="card">
+        <div id="card3" class="card">
           <?xml version="1.0" encoding="utf-8"?>
           <svg
             version="1.1"
@@ -264,7 +290,7 @@
       </div>
       <div class="bottom-navbar">
         <nav class="blocks">
-          <a href="#" class="block">
+          <a href="#" class="block" id="block1">
             <div class="block__item">
               <svg
                 version="1.1"
@@ -352,7 +378,7 @@
               </svg>
             </div>
           </a>
-          <a href="#" class="block">
+          <a href="#" class="block" id="block2">
             <div class="block__item">
               <svg
                 width="200px"
@@ -389,7 +415,7 @@
               </svg>
             </div>
           </a>
-          <a href="#" class="block">
+          <a href="#" class="block" id="block3">
             <div class="block__item">
               <svg
                 version="1.1"
@@ -473,7 +499,150 @@
           </a>
         </nav>
       </div>
+      <div class="cardForTime">
+        <p class="time-text" id="time">
+          <!-- <span class="time-sub-text">PM</span> -->
+        </p>
+        <p class="day-text" id="day"></p>
+        <!-- <svg
+          width="1.5em"
+          height="1.5em"
+          stroke-width="0"
+          fill="currentColor"
+          stroke="currentColor"
+          class="moon"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="5"
+            fill="white"
+            stroke="white"
+            stroke-width="2"
+          />
+          <line x1="12" y1="2" x2="12" y2="6" stroke="white" stroke-width="2" />
+          <line
+            x1="12"
+            y1="18"
+            x2="12"
+            y2="22"
+            stroke="white"
+            stroke-width="2"
+          />
+          <line
+            x1="2"
+            y1="12"
+            x2="6"
+            y2="12"
+            stroke="owhite"
+            stroke-width="2"
+          />
+          <line
+            x1="18"
+            y1="12"
+            x2="22"
+            y2="12"
+            stroke="white"
+            stroke-width="2"
+          />
+          <line
+            x1="4.2"
+            y1="4.2"
+            x2="7"
+            y2="7"
+            stroke="white"
+            stroke-width="2"
+          />
+          <line
+            x1="17"
+            y1="17"
+            x2="19.8"
+            y2="19.8"
+            stroke="white"
+            stroke-width="2"
+          />
+          <line
+            x1="4.2"
+            y1="19.8"
+            x2="7"
+            y2="17"
+            stroke="white"
+            stroke-width="2"
+          />
+          <line
+            x1="17"
+            y1="7"
+            x2="19.8"
+            y2="4.2"
+            stroke="white"
+            stroke-width="2"
+          />
+        </svg> -->
+        <svg
+          id="time-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="1em"
+          height="1em"
+          stroke-width="0"
+          fill="currentColor"
+          stroke="currentColor"
+          class="moon"
+        >
+          <path
+            d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"
+          ></path>
+          <path
+            d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"
+          ></path>
+        </svg>
+      </div>
     </main>
     <script type="text/javascript" src="desktop.js"></script>
   </body>
 </html>
+
+<!-- <dialog id="dialog">
+  <div class="card">
+    <div class="titlebar">
+      <span class="buttons">
+        <button class="minimize">
+          <svg x="0px" y="0px" viewBox="0 0 10.2 1">
+            <rect x="0" y="50%" width="10.2" height="1"></rect>
+          </svg>
+        </button>
+        <button class="maximize">
+          <svg viewBox="0 0 10 10">
+            <path d="M0,0v10h10V0H0z M9,9H1V1h8V9z"></path>
+          </svg>
+        </button>
+        <button class="close">
+          <svg viewBox="0 0 10 10">
+            <polygon
+              points="10.2,0.7 9.5,0 5.1,4.4 0.7,0 0,0.7 4.4,5.1 0,9.5 0.7,10.2 5.1,5.8 9.5,10.2 10.2,9.5 5.8,5.1"
+            ></polygon>
+          </svg>
+        </button>
+      </span>
+    </div>
+    <div class="cppcode">
+      <pre
+        id="pre"
+      ><code><span class="s1">#include</span> <span class="s2">&lt;iostream&gt;</span>
+using<span class="s3"> namespace </span>std<span class="sc">;</span>
+
+<span class="s3">int</span> <span class="s2">main()</span> <span class="curlies">{</span>
+
+  <span class="s3">int</span> <span class="s4">a</span> <span class="operator">=</span> 12<span class="sc">;</span>
+  <span class="s3">int</span> <span class="s4">b</span> <span class="operator">=</span> 5<span class="sc">;</span>
+
+  <span class="s4">cout</span> <span class="s5">&lt;&lt;</span> <span class="s1">"Sum of the numbers
+    is: "</span> <span class="s5">&lt;&lt;</span> <span class="rounds">(</span><span class="s4">a </span><span class="operator">+</span><span class="s4"> b</span><span class="rounds">)</span><span class="sc">;</span>
+
+  <span class="s6">return</span> 0<span class="sc">;</span>
+
+<span class="curlies">}</span>
+    </code></pre>
+    </div>
+  </div>
+</dialog> -->
