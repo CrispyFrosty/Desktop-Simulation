@@ -14,17 +14,17 @@ document.addEventListener("DOMContentLoaded", () => {
       offsetY = event.clientY - card.getBoundingClientRect().top;
       card.style.cursor = "grabbing";
       card.style.zIndex = 1000; // Bring the dragged card to the front
-    });
 
-    document.addEventListener("mousemove", (event) => {
-      if (!isDragging) return;
-      card.style.left = `${event.clientX - offsetX}px`;
-      card.style.top = `${event.clientY - offsetY}px`;
-    });
+      document.addEventListener("mousemove", (event) => {
+        if (!isDragging) return;
+        card.style.left = `${event.clientX - offsetX}px`;
+        card.style.top = `${event.clientY - offsetY}px`;
+      });
 
-    document.addEventListener("mouseup", () => {
-      isDragging = false;
-      card.style.cursor = "grab";
+      document.addEventListener("mouseup", () => {
+        isDragging = false;
+        card.style.cursor = "grab";
+      });
     });
   });
 });
@@ -48,27 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Manually create a dialog
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("block1").onclick = function () {
-    // Check if the dialog already exists
-    let dialog = document.getElementById("dialog");
-
-    if (!dialog) {
-      // Create the dialog element
-      dialog = document.createElement("dialog");
-      dialog.id = "dialog";
-
-      // Append the dialog to the body
-      document.body.appendChild(dialog);
-
-      // Add event listener for closing
-      document.getElementById("close").onclick = () => dialog.close();
-    }
-
-    // Show the dialog
-    dialog.showModal();
-  };
-});
 
 function startTime() {
   const today = new Date();
@@ -161,3 +140,142 @@ function closeDialog() {
 // Add event listener for double click on the card
 const card = document.getElementById("card1");
 card.addEventListener("dblclick", openDialog);
+
+document.querySelectorAll(".card").forEach((card, index) => {
+  card.style.top = `${index * 125}px`; // Adjust as needed
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const openTerminal = document.getElementById("open-terminal");
+  const terminalWindow = document.getElementById("terminal-window");
+  const terminalContainer = document.getElementById("terminal-container");
+
+  if (openTerminal && terminalWindow && terminalContainer) {
+    openTerminal.ondblclick = () => {
+      terminalWindow.showModal();
+
+      // Initialize xterm.js
+      const term = new Terminal({
+        cols: 80,
+        rows: 24,
+        cursorBlink: true,
+        theme: {
+          background: "#1e1e1e", // Dark terminal background
+          foreground: "#00ff00", // Green text
+          cursor: "#00ff00", // Green cursor
+          cursorAccent: "#1e1e1e", // Transparent cursor accent
+        },
+      });
+
+      term.open(terminalContainer);
+
+      // Initial message
+      term.write("Welcome to the Terminal!\r\n ");
+      term.write("No functionality :)\r\n> ");
+
+      let command = ""; // Stores the user’s current input
+
+      term.onData((input) => {
+        if (input === "\r") {
+          term.write("\r\n> "); // New prompt line
+          command = ""; // Reset command buffer
+        } else if (input === "\x7f") {
+          // Handle backspace
+          if (command.length > 0) {
+            command = command.slice(0, -1); // Remove last character
+            term.write("\b \b"); // Move cursor back, clear char, move back again
+          }
+        } else {
+          command += input; // Store the character
+          term.write(input); // Print character
+        }
+      });
+    };
+  }
+
+  // Optional: Close terminal when the close button is clicked
+  const closeTerminal = document.getElementById("close-terminal");
+  if (closeTerminal) {
+    closeTerminal.onclick = () => {
+      terminalWindow.close();
+    };
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("block1").onclick = function () {
+    // Check if the dialog already exists
+    let dialog = document.getElementById("dialog");
+
+    if (!dialog) {
+      // Create the dialog element
+      dialog = document.createElement("dialog");
+      dialog.id = "dialog";
+
+      // Append the dialog to the body
+      document.body.appendChild(dialog);
+
+      // Add event listener for closing
+      document.getElementById("close").onclick = () => dialog.close();
+    }
+
+    // Show the dialog
+    dialog.showModal();
+  };
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("block4").onclick = function () {
+    // Check if the dialog already exists
+    let terminal = document.getElementById("terminal-window");
+
+    if (!terminal) {
+      // Create the dialog element
+      terminal = document.createElement("dialog");
+      terminal.id = "terminal-window";
+
+      // Append the dialog to the body
+      document.body.appendChild(terminal);
+
+      // Create a close button dynamically and append it to the dialog
+      const closeBtn = document.createElement("button");
+      closeBtn.id = "close";
+      closeBtn.innerText = "Close Terminal";
+      terminal.appendChild(closeBtn);
+
+      // Add event listener for closing
+      closeBtn.onclick = () => terminal.close();
+
+      // Create the terminal container
+      const terminalContainer = document.createElement("div");
+      terminalContainer.id = "terminal-container";
+      terminal.appendChild(terminalContainer);
+
+      // Initialize xterm.js
+      const term = new Terminal();
+      term.open(terminalContainer); // Add the terminal inside the container
+      term.write("Welcome to the Web Terminal!\r\n> "); // Initial prompt
+
+      // Handle user input
+      let inputBuffer = "";
+      term.onData((input) => {
+        if (input === "\r") {
+          term.write("\r\n> ");
+          inputBuffer = ""; // Reset buffer on enter
+        } else if (input === "\x7f") {
+          // Handle backspace
+          if (inputBuffer.length > 0) {
+            inputBuffer = inputBuffer.slice(0, -1);
+            term.write("\b \b"); // Backspace action
+          }
+        } else {
+          inputBuffer += input;
+          term.write(input); // Display typed character
+        }
+      });
+    }
+
+    // Show the dialog
+    terminal.showModal();
+  };
+});
